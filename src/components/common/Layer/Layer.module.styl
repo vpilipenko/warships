@@ -1,0 +1,22 @@
+@import '../../../assets/styles/variables.styl'
+
+.layer {
+  position absolute
+  display flex
+  align-items center
+  transition all .3s ease-in-out
+}
+
+.grid {
+    background-image -webkit-linear-gradient($grey200 2.5%, transparent 2.5%, transparent 97.5%, $grey200 97.5%), 
+    -webkit-linear-gradient(left, $grey200 2.5%, transparent 2.5%, transparent 97.5%, $grey200 97.5%);
+}
+
+.outlined {
+  outline 2px solid $grey300
+}
+
+.dashed {
+  outline-style: dashed
+  border-style: dashed
+}

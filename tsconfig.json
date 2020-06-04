@@ -1,0 +1,17 @@
+{
+  "compilerOptions": {
+    "outDir": "./dist/",
+    "noImplicitAny": true,
+    "target": "es5",
+    "allowJs": true,
+    "lib": ["ES2019"],
+    "allowSyntheticDefaultImports": true,
+    "sourceMap": true,
+    "module": "es6",
+    "jsx": "react",
+    "moduleResolution": "node",
+    "experimentalDecorators": true,
+  },
+  "exclude": ["node_modules", "webpack.*.js"],
+  "include": ["src/index.tsx", "decs.d.ts"]
+}
