@@ -1,19 +1,16 @@
-import { Matrix, Slice, Coord } from '../types/common'
+import { SIZE, MATRIX, COORDINATE, SLICE } from '../types/common'
 
 
-export const createMatrix = (
-  x:number = 10,
-  y:number = 10
-): Matrix => {
-  return Array(y).fill(Array(x).fill(0))
+export const createMatrix = (size: SIZE): MATRIX => {
+  return Array(size[1]).fill(Array(size[0]).fill(0))
 }
 
 
 export const cropMatrix = (
-  matrix: Matrix,
-  s1: Slice,
-  s2: Slice
-): Matrix => {
+  matrix: MATRIX,
+  s1: SLICE,
+  s2: SLICE
+): MATRIX => {
   const yMin = 0
   const yMax = matrix.length
   const xMin = 0
@@ -37,17 +34,17 @@ export const cropMatrix = (
 
 
 export const getSiblings = (
-  matrix: Matrix,
-  A: Coord,
-  B?: Coord
-): Matrix => {
+  matrix: MATRIX,
+  A: COORDINATE,
+  B?: COORDINATE
+): MATRIX => {
   const Ax = A[0]
   const Ay = A[1]
 
   // slice 1
-  let s1: Slice = [Ay - 1, Ay + 2]
+  let s1: SLICE = [Ay - 1, Ay + 2]
   // slice 2
-  let s2: Slice = [Ax - 1, Ax + 2]
+  let s2: SLICE = [Ax - 1, Ax + 2]
 
   if (B) {
     const Bx = B[0]

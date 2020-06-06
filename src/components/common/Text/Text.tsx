@@ -5,7 +5,7 @@ import React from 'react'
 import cx from 'classnames'
 
 import { TEXT } from './types'
-import { getCellSize } from '../../../core/utils/cellSize'
+import { getCellSize } from '../../../utils/cellSize'
 
 
 const Text = (props: TEXT) => {

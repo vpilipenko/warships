@@ -7,28 +7,27 @@ const defaultState: DEFAULT_STATE = {
   layout: [],
   settings: {
     cellSize: '2rem',
-    whitespace: 6,
-    padding: 2,
+    whitespaceRatio: .6, // .6 - classic
     availableShips: [
       {
         name: 'fourDeck',
         decks: 4,
-        quantity: 1,
+        quantity: 1, // 1 - classic
       },
       {
         name: 'tripleDeck',
         decks: 3,
-        quantity: 4,
+        quantity: 2, // 2 - classic
       },
       {
         name: 'doubleDeck',
         decks: 2,
-        quantity: 7,
+        quantity: 3, // 3 - classic
       },    
       {
         name: 'singleDeck',
         decks: 1,
-        quantity: 4,
+        quantity: 4, // 4 - classic
       },
     ]
   },

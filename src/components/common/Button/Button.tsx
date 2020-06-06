@@ -6,7 +6,7 @@ import cx from 'classnames'
 
 import { BUTTON, STYLES } from './types'
 
-import { getCellSize } from '../../../core/utils/cellSize'
+import { getCellSize } from '../../../utils/cellSize'
 
 
 const Button = (props: BUTTON) => {

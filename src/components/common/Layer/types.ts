@@ -14,4 +14,5 @@ export interface LAYER  {
   dashed?: boolean
   xAxis?: boolean
   yAxis?: boolean
+  fadeIn?: boolean
 }

@@ -44,23 +44,26 @@ const LayoutRenderer = (props: PROPS): any => {
           return <div key={index}>{`No render for: ${field.type}`}</div>
         }
 
-        let preset: PRESET = {}
-        if (field.presets) {
-          preset = field.presets.reduce((acc: any, preset: string) => {
-            return Object.assign(acc, presets[preset])
-          }, {})
-        }
-
+        
         let children = null
         if (field.children) {
           children = <LayoutRenderer
-            layout={field.children}
-            rendererTypes={rendererTypes}
-            renderers={renderers}
-            presets={presets}
-            settings={settings}
-            key={index}
+          layout={field.children}
+          rendererTypes={rendererTypes}
+          renderers={renderers}
+          presets={presets}
+          settings={settings}
+          key={index}
           />
+        }
+        
+        let preset: PRESET = {
+          props: {},
+        }
+        if (field.presets) {
+          field.presets.map((presetName: string) => {
+            preset.props = Object.assign(preset.props, presets[presetName].props)
+          })
         }
 
         return (

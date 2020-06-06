@@ -3,8 +3,7 @@ import { LAYOUT } from '../../types/layout'
 const mainMenuLayout: LAYOUT = [
   {
     type: 'LAYER',
-    presets: ['mainMenu'],
-    id: 'mainMenu',
+    presets: ['world', 'mainMenu'],
     size: [24, 16],
     children: [
       {
@@ -31,6 +30,7 @@ const mainMenuLayout: LAYOUT = [
         size: [12, 1],
         children: [{
           type: 'BUTTON',
+          id: 'startSingleGame',
           presets: ['newGameButton']
         }]
       },

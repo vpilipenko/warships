@@ -4,7 +4,7 @@ import connect from 'baobab-connect'
 
 import { CORE } from '../../types/core'
 
-// import { initGame } from '../../core/actions/initGame'
+import { initGame } from '../../actions/initGame'
 
 
 interface PROP_TYPES {
@@ -18,7 +18,9 @@ interface PROP_TYPES {
 class CoreController extends Component<PROP_TYPES> {
 
   componentDidMount() {
-    // initGame()
+    setTimeout(() => {
+      initGame()
+    }, 100)
   }
 
   componentDidUpdate(prevProps: PROP_TYPES) {

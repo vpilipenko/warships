@@ -2,8 +2,8 @@ import React from 'react'
 
 import cm from './Axis.module.styl'
 
-import { getTicks } from '../../../core/utils/ticks'
-import { getCellSize } from '../../../core/utils/cellSize'
+import { getTicks } from '../../../utils/ticks'
+import { getCellSize } from '../../../utils/cellSize'
 
 
 type PROPS = {

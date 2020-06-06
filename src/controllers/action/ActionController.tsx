@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 
+import { startSingleGame } from '../../actions/startSingleGame'
 
 type PROPS = {
   children?: any,
@@ -18,8 +19,11 @@ class ActionController extends Component<PROPS> {
 
 
   handleClick = (e:any) => {
-    console.log('e', e.target)
-    console.log('e.type', e.type)
+    const { id } = e.target
+
+    if (id === 'startSingleGame') {
+      startSingleGame()
+    }
   }
 
   handleMousemove = (e: any) => {

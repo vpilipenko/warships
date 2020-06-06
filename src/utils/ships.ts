@@ -1,30 +1,42 @@
-import { Coord, Matrix, FIELD_SIZE } from '../types/common'
-import { SHIPS } from '../types/common'
+// import { Coord, Matrix, FIELD_SIZE } from '../types/common'
+// import { SHIPS } from '../types/common'
 
-import { createMatrix, getSiblings } from './matrix'
-import { getRandomInt } from './ints'
-import { getRandomCoord } from './coords'
+// import { createMatrix, getSiblings } from './matrix'
+// import { getRandomCoord } from './coords'
+
+import { AVAILABLE_SHIPS, AVAILABLE_SHIP } from '../types/ships'
+import { MATRIX, COORDINATE, SIZE } from '../types/common'
+
+import {
+  createMatrix,
+  getSiblings,
+} from './matrix'
+
+import { getRandomInteger } from './int'
+import { getRandomCoordinate } from './coordinates'
 
 
 export const placeShipOnMatrix = (
-  firstDeck: Coord,
-  orientation: String,
-  decks: Number,
-  matrix: Matrix,
-  number: number,
+  firstDeck: COORDINATE,
+  lastDeck: COORDINATE,
+  matrix: MATRIX,
   name: string,
-): Matrix => {
-  const x = firstDeck[0]
-  const y = firstDeck[1]
-  
-  const result: Matrix = matrix.map((row: number[]) => ([...row]))
+): MATRIX => {
+  const aX = firstDeck[0]
+  const aY = firstDeck[1]
+  const bX = lastDeck[0]
+  const bY = lastDeck[1]
 
-  for (let i = 0; i < decks; i++) {
-    const id = `${number}_${name}_${i}`
-    if (orientation === 'v') {
-      result[y+i][x] = id
+  const orient = aX === bX ? 'v' : 'h'
+  const length = orient === 'v' ? bY - aY : bX - aX
+  
+  const result: MATRIX = matrix.map(row => ([...row]))
+  
+  for (let i = 0; i < length + 1; i++) {
+    if (orient === 'v') {
+      result[aY+i][aX] = `${name}_${i}`
     } else {
-      result[y][x+i] = id
+      result[aY][aX+i] = `${name}_${i}`
     }
   }
 
@@ -32,107 +44,140 @@ export const placeShipOnMatrix = (
 }
 
 
-// export const createRandomShipPlacementMatrix = (
-//   size: FIELD_SIZE,
-//   ships: SHIPS
-// ): Matrix => {
-//   const sizeX = size[0]
-//   const sizeY = size[1]
-  
-//   let result = createMatrix(sizeX, sizeY)
-  
-//   ships.map(shipType => {
-//     const { quantity, decks: d } = shipType
-//     const decks = d - 1
-//     const xMax = sizeX - decks
-//     const yMax = sizeY - decks
-    
-//     for (let i = 0; i < quantity + 1; i++) {
-//       const randomPlacement = (): void => {
-//         const randomOrientation = getRandomInt(2) ? 'v' : 'h'
-//         const firstDeck = getRandomCoord(xMax, yMax)
-//         const lastDeck: Coord = randomOrientation === 'h'
-//           ? [firstDeck[0] + decks - 1, firstDeck[1]]
-//           : [firstDeck[0], firstDeck[1] + decks - 1]
-  
-//         const targetArea = getSiblings(result, firstDeck, lastDeck)
-//         const isTargetAreaFree = !targetArea.flat().includes(1)
-        
-//         if (isTargetAreaFree) {
-//           result = placeShipOnMatrix(firstDeck, randomOrientation, decks, result)
-//         } else {
-//           randomPlacement()
-//         }
-//       }
-//       randomPlacement()
-//     }
-//   })
+export const createShipPlacementMatrix = (
+  availableShips: AVAILABLE_SHIPS,
+  size: SIZE,
+  type: String,
+  orientation?: String,
+): MATRIX => {
+  let result = createMatrix(size)
+  let lastCoordinate: COORDINATE = [-1, 0]
 
-//   return result
-// }
+  let number = 0
+  availableShips.map((availableShip, index) => {
+    const { quantity } = availableShip
 
-export const createLinearShipPlacementMatrix = (
-  size: FIELD_SIZE,
-  ships: SHIPS
-): Matrix => {
-  const sizeX = size[0]
-  const sizeY = size[1]
-  
-  let result = createMatrix(sizeX, sizeY)
-
-  let lastTarget: Coord = [-1, 0]
-
-  ships.map((shipType) => {
-    const { name, quantity, decks } = shipType
-    
-    for (let i = 0; i < quantity; i++) {     
-      const linearPlacement = (): void => {
-        if (lastTarget[0] >= sizeX - 1) {
-          lastTarget = [0, lastTarget[1] + 1]
-        } else {
-          lastTarget = [lastTarget[0] + 1, lastTarget[1]]
-        }
-  
-        const firstDeck = lastTarget
-        const lastDeck: Coord = [firstDeck[0], firstDeck[1] + decks - 1]
-  
-        const targetArea = getSiblings(result, firstDeck, lastDeck)
-        const isTargetAreaFree = targetArea.flat().every(c => c === 0)
-
-        if (isTargetAreaFree) {
-          result = placeShipOnMatrix(firstDeck, 'v', decks, result, i, name)
-        } else {
-          linearPlacement()
-        }
+    for (let i = 0; i < quantity; i++) {
+      if (type === 'linear') {
+        const linear = placeLinear(result, availableShip, lastCoordinate, orientation, number)
+        result = linear.placement
+        lastCoordinate = linear.coordinate
+      } else {
+        const random = placeRandomly(result, availableShip, number)
+        result = random
       }
-      linearPlacement()
+      number++
     }
   })
 
   return result
 }
 
+const placeLinear = (
+  matrix: MATRIX,
+  ship: AVAILABLE_SHIP,
+  lastCoordinate: COORDINATE,
+  orientation: String,
+  number: number,
+): {
+  placement: MATRIX,
+  coordinate: COORDINATE,
+} => {
+  let result = matrix
 
-export const getShipsFromMatrix = (matrix: Matrix) => {
+  const fire = () => {
+    const max = orientation === 'vertical'
+     ? matrix.length - 1
+     : matrix.length - ship.decks
+    if (lastCoordinate[0] >= max) {
+      lastCoordinate = [0, lastCoordinate[1] + 1]
+    } else {
+      lastCoordinate = [lastCoordinate[0] + 1, lastCoordinate[1]]
+    }
+
+    const firstDeck = lastCoordinate
+    const lastDeck: COORDINATE = orientation === 'vertical'
+      ? [firstDeck[0], firstDeck[1] + ship.decks - 1]
+      : [firstDeck[0] + ship.decks - 1, firstDeck[1]]
+
+    const targetArea = getSiblings(matrix, firstDeck, lastDeck)
+    const isTargetAreaFree = targetArea.flat().every(c => c === 0)
+
+    if (isTargetAreaFree) {
+      result = placeShipOnMatrix(firstDeck, lastDeck, matrix, `${number}_${ship.name}_${orientation}`)
+    } else {
+      fire()
+    }
+  }
+  fire()
+
+  return {
+    placement: result,
+    coordinate: lastCoordinate,
+  }
+}
+
+const placeRandomly = (
+  matrix: MATRIX,
+  ship: AVAILABLE_SHIP,
+  number: number,
+): MATRIX => {
+  let result = matrix
+
+  const fire = () => {
+    const randomOrientation = getRandomInteger(2) ? 'vertical' : 'horizontal'
+    const max = matrix.length - ship.decks
+    const firstDeck = getRandomCoordinate(max, max)
+    const lastDeck: COORDINATE = randomOrientation === 'vertical'
+      ? [firstDeck[0], firstDeck[1] + ship.decks - 1]
+      : [firstDeck[0] + ship.decks - 1, firstDeck[1]]
+
+    const targetArea = getSiblings(result, firstDeck, lastDeck)
+    const isTargetAreaFree = targetArea.flat().every(c => c === 0)
+
+    if (isTargetAreaFree) {
+      result = placeShipOnMatrix(firstDeck, lastDeck, result, `${number}_${ship.name}_${randomOrientation}`)
+    } else {
+      fire()
+    }
+  }
+  fire()
+
+  return result
+}
+
+
+export const getShipsFromMatrix = (matrix: MATRIX) => {
   const ids: string[] = []
   const data: any = {}
-
+  
   matrix.map((a, y) => {
     a.map((b, x) => {
       if (!b) { return }
       b = `${b}`
       const shipData = b.split('_')
-      const id = shipData[0] + '_' + shipData[1]
+      
+      const number = shipData[0]
+      const name = shipData[1]
+      const orientation = shipData[2] === 'horizontal' ? 0 : 1
+      const deck = shipData[3]
+
+      const position = deck === '0' ? [x,y] : [0,0]
+      const id = `${number}_${name}_${orientation}`
+    
       if (!ids.includes(id)) {
         ids.push(id)
         data[id] = {
           coords: [[x, y]],
           name: shipData[1],
-          length: 1
+          decks: 1,
+          position,
+          size: [1, 1],
         }
       } else {
         data[id].coords.push([x, y])
-        data[id].length = data[id].length + 1
+        data[id].decks = data[id].decks + 1
+        data[id].size[orientation] = data[id].size[orientation] + 1
       }
     })
   })

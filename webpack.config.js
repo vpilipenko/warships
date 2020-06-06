@@ -1,5 +1,6 @@
 const path = require('path');
 
+const devServerConfig = require('./webpackDevServer.config')
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 
@@ -13,6 +14,7 @@ module.exports = {
   resolve: {
     extensions: ['.ts', '.tsx', '.js', '.jsx'],
   },
+  devServer: {...devServerConfig},
   module: {
     rules: [
       {

@@ -1,12 +1,12 @@
-import { FieldSizeAbsolute } from '../types/common'
+import { SIZE, SIZE_ABSOLUTE } from '../types/common'
 
 const SIZE_CACHE: {
-  [key: string]: FieldSizeAbsolute
+  [key: string]: SIZE_ABSOLUTE
 } = {}
 
 export const getAbsoluteSize = (
-  size: [number, number], cellSize: (number|string)
-): FieldSizeAbsolute => {
+  size: SIZE, cellSize: (number|string)
+): SIZE_ABSOLUTE => {
   const id = `${size.join('_')}_${cellSize}`
 
   if (SIZE_CACHE[id]) {
@@ -26,26 +26,9 @@ export const getAbsoluteSize = (
   let width = size[0] * sizeInt + unit
   let height = size[1] * sizeInt + unit
 
-  const result: FieldSizeAbsolute = [width, height]
+  const result: SIZE_ABSOLUTE = [width, height]
   
   SIZE_CACHE[id] = result
 
   return result
-}
-
-
-
-
-const getBattlefieldSize = (
-  cellSize: (number|string), cells: [number, number]
-): { width: string, height: string } => {
-  let sizeInt = 0
-  let unit = 'px'
-  
-
-
-  let width = cells[0] * sizeInt + unit
-  let height = cells[1] * sizeInt + unit
-  
-  return { width, height }
 }

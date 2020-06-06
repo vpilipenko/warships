@@ -4,7 +4,11 @@ import connect from 'baobab-connect'
 
 import { SETTINGS } from '../../types/settings'
 
-// import LayoutRenderer from '../../components/LayoutRenderer'
+import LayoutRenderer from '../../components/LayoutRenderer'
+
+import rendererTypes from '../../ui/rendererTypes'
+import renderers from '../../ui/renderers'
+import presets from '../../ui/presets'
 
 
 interface PROP_TYPES {
@@ -24,14 +28,15 @@ class LayoutController extends Component<PROP_TYPES> {
       settings
     } = this.props
 
-    return <div>123</div>
-
-    // return (
-    //   <LayoutRenderer
-    //     layout={layout}
-    //     settings={settings}
-    //   />
-    // )
+    return (
+      <LayoutRenderer
+        layout={layout}
+        rendererTypes={rendererTypes}
+        renderers={renderers}
+        presets={presets}
+        settings={settings}
+      />
+    )
   }
 }
 

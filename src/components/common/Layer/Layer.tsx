@@ -6,8 +6,8 @@ import cx from 'classnames'
 
 import { LAYER } from './types'
 
-import { getAbsolutePosition } from '../../../core/utils/position'
-import { getAbsoluteSize } from '../../../core/utils/size'
+import { getAbsolutePosition } from '../../../utils/position'
+import { getAbsoluteSize } from '../../../utils/size'
 
 import Axis from './Axis'
 
@@ -26,6 +26,7 @@ const Layer = (props: LAYER) => {
     dashed,
     xAxis,
     yAxis,
+    fadeIn,
   } = props
 
   const styles: {[key: string]: any} = {
@@ -58,6 +59,7 @@ const Layer = (props: LAYER) => {
         [cm.grid]: grid,
         [cm.outlined]: outlined,
         [cm.dashed]: dashed,
+        [cm.fadeIn]: fadeIn,
       })}
       style={styles}
     >

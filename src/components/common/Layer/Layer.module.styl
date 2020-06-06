@@ -4,7 +4,15 @@
   position absolute
   display flex
   align-items center
-  transition all .3s ease-in-out
+  transition transform 1s ease-in-out
+}
+
+.fadeIn {
+  animation fadeIn .5s ease-in-out
+  @keyframes fadeIn {
+    from { opacity: 0 };
+    to { opacity: 1 };
+  }
 }
 
 .grid {
@@ -17,6 +25,5 @@
 }
 
 .dashed {
-  outline-style: dashed
-  border-style: dashed
+  outline 2px dashed $grey400
 }

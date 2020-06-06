@@ -9,7 +9,7 @@ import { RENDERERS } from '../../types/renderers'
 
 const renders: RENDERERS = {
 
-  LAYER: ({ field, preset, children, settings, ...other }) => {
+  LAYER: ({ renderers, rendererTypes, preset, field, children, settings, ...other }) => {
     const { position, size } = field
     return (
       <Layer
@@ -22,7 +22,7 @@ const renders: RENDERERS = {
     )
   },
 
-  TEXT: ({ field, preset, children, settings, ...other }) => {
+  TEXT: ({ renderers, rendererTypes, preset, field, children, settings, ...other }) => {
     return (
       <Text
         {...preset.props}
@@ -31,15 +31,13 @@ const renders: RENDERERS = {
     )
   },
 
-  BUTTON: ({ field, preset, children, settings, ...other }) => {
-    const { text } = preset.props
+  BUTTON: ({ renderers, rendererTypes, preset, field, children, settings, ...other }) => {
     return (
       <Button
+        id={field.id}
         {...preset.props}
         cellSize={settings.cellSize}
-      >
-        {text}
-      </Button>
+      />
     )
   },
 

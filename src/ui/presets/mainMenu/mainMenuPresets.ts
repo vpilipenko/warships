@@ -1,11 +1,9 @@
 export const mainMenuPresets = {
   mainMenu: {
-    props: { grid: true, outlined: true, scale: .78, xAxis: true, yAxis: true,
-    // rotate: [45, 0, -30]
-    }
+    props: { xAxis: true, yAxis: true, fadeIn: true }
   },
   warshipsTitle: {
-    props: { text: 'Warships 🔥', size: 'xxl', weight: 'bold' }
+    props: { text: '123', size: 'xxl', weight: 'bold' } // text: 'Warships 🔥'
   },
   mainMenuTitle: {
     props: { text: 'Main menu', size: 'm' }

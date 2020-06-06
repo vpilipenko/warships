@@ -1,14 +1,14 @@
-import { Coord, CoordAbsolute } from '../types/common'
+import { POSITION, POSITION_ABSOLUTE } from '../types/common'
 
 
 const POSITION_CACHE: {
-  [key: string]: CoordAbsolute
+  [key: string]: POSITION_ABSOLUTE
 } = {}
 
 export const getAbsolutePosition = (
-  coord: Coord, cellSize: (string|number)
-): CoordAbsolute => {
-  const id = `${coord.join('_')}_${cellSize}`
+  position: POSITION, cellSize: (string|number)
+): POSITION_ABSOLUTE => {
+  const id = `${position.join('_')}_${cellSize}`
   
   if (POSITION_CACHE[id]) {
     return POSITION_CACHE[id]
@@ -24,10 +24,10 @@ export const getAbsolutePosition = (
     sizeInt = cellSize
   }
 
-  let left = coord[0] * sizeInt + unit
-  let top = coord[1] * sizeInt + unit
+  let left = position[0] * sizeInt + unit
+  let top = position[1] * sizeInt + unit
 
-  const result: CoordAbsolute = [left, top]
+  const result: POSITION_ABSOLUTE = [left, top]
   
   POSITION_CACHE[id] = result
 

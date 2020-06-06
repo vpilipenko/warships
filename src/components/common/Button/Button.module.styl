@@ -1,3 +1,5 @@
+@import '../../../assets/styles/variables.styl'
+
 .button {
   display inline-block
   text-align center
@@ -9,14 +11,14 @@
   padding 0
   outline none
   background-color transparent
-  border-bottom 2px dashed rgba(0,0,0, .4)
+  border-bottom 2px dashed $grey500
   transition all .15s ease-in-out
 
   &:not(:disabled):not(.disabled) {
     cursor: pointer;
   }
 
-  &:focus, &:hover {
+  &:hover {
     border-color transparent
     text-decoration none
     color #D50000
