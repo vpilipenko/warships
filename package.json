@@ -7,7 +7,7 @@
     "@types/redux-logger": "^3.0.7",
     "@types/redux-promise": "^0.5.29",
     "@types/superagent": "^4.1.7",
-    "baobab": "^2.6.0",
+    "baobab": "^2.6.1",
     "baobab-connect": "^0.1.92",
     "baobab-react": "^4.0.2",
     "classnames": "^2.2.6",
